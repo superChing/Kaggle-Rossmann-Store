@@ -8,53 +8,53 @@ import numpy as np
 import itertools
 
 
-# In[3]:
+# In[1]:
 
 def _transform(df):
-    df.Date=pd.to_datetime(df.Date)
-        
-    cat_cols=['StateHoliday']
+    df.Date = pd.to_datetime(df.Date)
+
+    cat_cols = ['StateHoliday']
     for col in cat_cols:
         df[col] = df[col].astype(np.str)
         df[col] = df[col].astype('category')
-  
+
     #column DayOfWeek is redundant, remove it
-    df=df.drop('DayOfWeek',axis=1)
-    
+    df = df.drop('DayOfWeek', axis=1)
+
     return df
-    
-def get_train():   
-    df=pd.read_csv('train.csv')
-    df.Date=pd.to_datetime(df.Date)
+
+def get_train():
+    df = pd.read_csv('train.csv')
+    df.Date = pd.to_datetime(df.Date)
 
     #fill missing indices
-    dr=pd.date_range(df.Date.min(), df.Date.max(),freq=pd.datetools.day)
-    idx_df=pd.DataFrame(list(itertools.product(dr,range(1,1116))),columns=['Date','Store']) #complete index
-    df=idx_df.merge(df,on=['Date','Store'],how='left')
+    dr = pd.date_range(df.Date.min(), df.Date.max(), freq=pd.datetools.day)
+    idx_df = pd.DataFrame(list(itertools.product(dr, range(1, 1116))), columns=['Date', 'Store'])  #complete index
+    df = idx_df.merge(df, on=['Date', 'Store'], how='left')
 
     #merge will convert categoryical to object type, so I put transform here.
-    df= _transform(df) 
+    df = _transform(df)
     return df
 
-    
-def get_test():
-    test=pd.read_csv('test.csv')
-    return _transform(test)
-    
 
-    
+def get_test():
+    test = pd.read_csv('test.csv')
+    return _transform(test)
+
+
+
 def get_store():
-    df=pd.read_csv('store.csv')
-    
-    cat_cols=['StoreType','Assortment','PromoInterval']
+    df = pd.read_csv('store.csv')
+
+    cat_cols = ['StoreType', 'Assortment', 'PromoInterval']
     for col in cat_cols:
         df[col] = df[col].astype(np.str)
-        df[col] = df[col].astype('category') 
+        df[col] = df[col].astype('category')
 
     return df
 
 
-# In[5]:
+# In[2]:
 
 def drop_incomplete_stores(df): # drop stores that has NaN in Sales.
     df=df.copy()
@@ -90,7 +90,7 @@ def sample_df(df,store_frac=1,time_range=['2014-01-01','2014-12-31'],drop_na_sto
     return df
 
 
-# In[6]:
+# In[3]:
 
 # !! plz save the ipynb in advance
 if __name__=='__main__': 
