@@ -1,10 +1,15 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[21]:
 
 import pandas as pd
+pd.options.display.max_rows=10
 import numpy as np
+
+
+# In[18]:
+
 import itertools
 
 
@@ -24,7 +29,11 @@ def _transform(df):
     return df
 
 def get_train():
-    df = pd.read_csv('train.csv')
+#     import warnings
+#     with warnings.catch_warnings():
+#         warnings.simplefilter("ignore")
+    df = pd.read_csv('train.csv',dtype={'StateHoliday':np.str})  #
+        
     df.Date = pd.to_datetime(df.Date)
 
     #fill missing indices
@@ -90,7 +99,7 @@ def sample_df(df,store_frac=1,time_range=['2014-01-01','2014-12-31'],drop_na_sto
     return df
 
 
-# In[3]:
+# In[20]:
 
 # !! plz save the ipynb in advance
 if __name__=='__main__': 
