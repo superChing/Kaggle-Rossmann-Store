@@ -1,15 +1,17 @@
 
 # coding: utf-8
 
+# In[22]:
+
+# !! plz save the ipynb in advance
+if __name__=='__main__': 
+    get_ipython().system('ipython nbconvert --to=python utility.ipynb')
+
+
 # In[21]:
 
 import pandas as pd
-pd.options.display.max_rows=10
 import numpy as np
-
-
-# In[18]:
-
 import itertools
 
 
@@ -21,7 +23,7 @@ def _transform(df):
     cat_cols = ['StateHoliday']
     for col in cat_cols:
         df[col] = df[col].astype(np.str)
-        df[col] = df[col].astype('category')
+#         df[col] = df[col].astype('category')
 
     #column DayOfWeek is redundant, remove it
     df = df.drop('DayOfWeek', axis=1)
@@ -58,7 +60,7 @@ def get_store():
     cat_cols = ['StoreType', 'Assortment', 'PromoInterval']
     for col in cat_cols:
         df[col] = df[col].astype(np.str)
-        df[col] = df[col].astype('category')
+#         df[col] = df[col].astype('category')
 
     return df
 
@@ -99,11 +101,60 @@ def sample_df(df,store_frac=1,time_range=['2014-01-01','2014-12-31'],drop_na_sto
     return df
 
 
-# In[20]:
+# In[ ]:
 
-# !! plz save the ipynb in advance
-if __name__=='__main__': 
-    get_ipython().system('ipython nbconvert --to=python utility.ipynb')
+
+
+
+# In[23]:
+
+from sklearn.base import TransformerMixin, BaseEstimator
+
+class PandasTransformer(TransformerMixin, BaseEstimator):
+    def __init__(self, dataframe):
+        self.columns = dataframe.columns
+        self.obj_columns = get_obj_cols(dataframe, index=True)
+        obj_msk = np.zeros(dataframe.shape[1], dtype=bool)
+        obj_msk[self.obj_columns] = True
+        self.obj_msk = obj_msk
+        
+    def fit(self, X, y=None):
+        X = np.asarray(X)
+        # create the binarizer transforms
+        _transformers = {}
+        for col in self.obj_columns:
+            _transformers.update({col: LabelBinarizer().fit(X[:, col])})
+        
+        self._transformers = _transformers
+        return self
+    
+    def transform(self, X, y=None):
+        X = np.asarray(X)
+        
+        dummies = None
+        for col in self.obj_columns:
+            if dummies is None:
+                dummies = self._transformers[col].transform(X[:, col])
+            else:
+                new_dummy = self._transformers[col].transform(X[:, col])
+                dummies = np.column_stack((dummies, new_dummy))
+            
+        # remove original columns
+        X = X[:, ~self.obj_msk]
+        
+        X = np.column_stack((X, dummies))
+        
+        return X
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
 
 
 # In[ ]:
