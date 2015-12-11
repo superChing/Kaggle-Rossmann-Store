@@ -1,0 +1,650 @@
+[
+  {
+    "Date": 1356998400000,
+    "HolidayName": "New Year's Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1357430400000,
+    "HolidayName": "Epiphany",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, ST"
+  },
+  {
+    "Date": 1360540800000,
+    "HolidayName": "Shrove Monday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1360627200000,
+    "HolidayName": "Carnival\/Shrove Tuesday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1360713600000,
+    "HolidayName": "Carnival\/Ash Wednesday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1360800000000,
+    "HolidayName": "Valentine's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1363737600000,
+    "HolidayName": "March equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1364083200000,
+    "HolidayName": "Palm Sunday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1364428800000,
+    "HolidayName": "Maundy Thursday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1364515200000,
+    "HolidayName": "Good Friday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1364688000000,
+    "HolidayName": "Easter Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1364774400000,
+    "HolidayName": "Easter Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1367366400000,
+    "HolidayName": "May Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1368057600000,
+    "HolidayName": "Ascension Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1368316800000,
+    "HolidayName": "Mother's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1368921600000,
+    "HolidayName": "Whit Sunday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1369008000000,
+    "HolidayName": "Whit Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1369872000000,
+    "HolidayName": "Corpus Christi",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, HE, NW, RP, SL"
+  },
+  {
+    "Date": 1371772800000,
+    "HolidayName": "June Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1375920000000,
+    "HolidayName": "Peace Festival",
+    "HolidayType": "Local holiday",
+    "HolidayStates": "BY"
+  },
+  {
+    "Date": 1376524800000,
+    "HolidayName": "Assumption of Mary",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BY, SL"
+  },
+  {
+    "Date": 1379808000000,
+    "HolidayName": "September equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1380758400000,
+    "HolidayName": "Day of German Unity",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1383177600000,
+    "HolidayName": "Halloween",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1383264000000,
+    "HolidayName": "All Saints' Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, NW, RP, SL"
+  },
+  {
+    "Date": 1384128000000,
+    "HolidayName": "St. Martin's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1384646400000,
+    "HolidayName": "National Day of Mourning",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1384905600000,
+    "HolidayName": "Repentance Day",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "SN"
+  },
+  {
+    "Date": 1385251200000,
+    "HolidayName": "Sunday of the Dead",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1385856000000,
+    "HolidayName": "First Sunday Advent",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1386288000000,
+    "HolidayName": "Saint Nicholas Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1387584000000,
+    "HolidayName": "December Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1387843200000,
+    "HolidayName": "Christmas Eve",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1387929600000,
+    "HolidayName": "Christmas Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1388016000000,
+    "HolidayName": "Boxing Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1388448000000,
+    "HolidayName": "New Year's Eve",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1388534400000,
+    "HolidayName": "New Year's Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1388966400000,
+    "HolidayName": "Epiphany",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, ST"
+  },
+  {
+    "Date": 1392336000000,
+    "HolidayName": "Valentine's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1393804800000,
+    "HolidayName": "Shrove Monday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1393891200000,
+    "HolidayName": "Carnival\/Shrove Tuesday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1393977600000,
+    "HolidayName": "Carnival\/Ash Wednesday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1395273600000,
+    "HolidayName": "March equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1397347200000,
+    "HolidayName": "Palm Sunday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1397692800000,
+    "HolidayName": "Maundy Thursday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1397779200000,
+    "HolidayName": "Good Friday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1397952000000,
+    "HolidayName": "Easter Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1398038400000,
+    "HolidayName": "Easter Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1398902400000,
+    "HolidayName": "May Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1399766400000,
+    "HolidayName": "Mother's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1401321600000,
+    "HolidayName": "Ascension Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1402185600000,
+    "HolidayName": "Whit Sunday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1402272000000,
+    "HolidayName": "Whit Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1403136000000,
+    "HolidayName": "Corpus Christi",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, HE, NW, RP, SL"
+  },
+  {
+    "Date": 1403308800000,
+    "HolidayName": "June Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1407456000000,
+    "HolidayName": "Peace Festival",
+    "HolidayType": "Local holiday",
+    "HolidayStates": "BY"
+  },
+  {
+    "Date": 1408060800000,
+    "HolidayName": "Assumption of Mary",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BY, SL"
+  },
+  {
+    "Date": 1411430400000,
+    "HolidayName": "September equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1412294400000,
+    "HolidayName": "Day of German Unity",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1414713600000,
+    "HolidayName": "Halloween",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1414800000000,
+    "HolidayName": "All Saints' Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, NW, RP, SL"
+  },
+  {
+    "Date": 1415664000000,
+    "HolidayName": "St. Martin's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1416096000000,
+    "HolidayName": "National Day of Mourning",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1416355200000,
+    "HolidayName": "Repentance Day",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "SN"
+  },
+  {
+    "Date": 1416700800000,
+    "HolidayName": "Sunday of the Dead",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1417305600000,
+    "HolidayName": "First Sunday Advent",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1417824000000,
+    "HolidayName": "Saint Nicholas Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1419120000000,
+    "HolidayName": "December Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1419379200000,
+    "HolidayName": "Christmas Eve",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1419465600000,
+    "HolidayName": "Christmas Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1419552000000,
+    "HolidayName": "Boxing Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1419984000000,
+    "HolidayName": "New Year's Eve",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1420070400000,
+    "HolidayName": "New Year's Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1420502400000,
+    "HolidayName": "Epiphany",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, ST"
+  },
+  {
+    "Date": 1423872000000,
+    "HolidayName": "Valentine's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1424044800000,
+    "HolidayName": "Shrove Monday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1424131200000,
+    "HolidayName": "Carnival\/Shrove Tuesday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1424217600000,
+    "HolidayName": "Carnival\/Ash Wednesday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1426809600000,
+    "HolidayName": "March equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1427587200000,
+    "HolidayName": "Palm Sunday",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1427932800000,
+    "HolidayName": "Maundy Thursday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1428019200000,
+    "HolidayName": "Good Friday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1428192000000,
+    "HolidayName": "Easter Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1428278400000,
+    "HolidayName": "Easter Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1430438400000,
+    "HolidayName": "May Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1431216000000,
+    "HolidayName": "Mother's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1431561600000,
+    "HolidayName": "Ascension Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1432425600000,
+    "HolidayName": "Whit Sunday",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1432512000000,
+    "HolidayName": "Whit Monday",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1433376000000,
+    "HolidayName": "Corpus Christi",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BW, BY, HE, NW, RP, SL, SN, TH"
+  },
+  {
+    "Date": 1434844800000,
+    "HolidayName": "June Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1438992000000,
+    "HolidayName": "Peace Festival",
+    "HolidayType": "Local holiday",
+    "HolidayStates": "BY"
+  },
+  {
+    "Date": 1439596800000,
+    "HolidayName": "Assumption of Mary",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "BY, SL"
+  },
+  {
+    "Date": 1442966400000,
+    "HolidayName": "September equinox",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1443830400000,
+    "HolidayName": "Day of German Unity",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1446249600000,
+    "HolidayName": "Halloween",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1446336000000,
+    "HolidayName": "All Saints' Day",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, NW, RP, SL, TH"
+  },
+  {
+    "Date": 1447200000000,
+    "HolidayName": "St. Martin's Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1447545600000,
+    "HolidayName": "National Day of Mourning",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1447804800000,
+    "HolidayName": "Repentance Day",
+    "HolidayType": "Common Local holidays",
+    "HolidayStates": "SN"
+  },
+  {
+    "Date": 1448150400000,
+    "HolidayName": "Sunday of the Dead",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1448755200000,
+    "HolidayName": "First Sunday Advent",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1449360000000,
+    "HolidayName": "Saint Nicholas Day",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1450742400000,
+    "HolidayName": "December Solstice",
+    "HolidayType": "Season",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1450915200000,
+    "HolidayName": "Christmas Eve",
+    "HolidayType": "Silent Day",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1451001600000,
+    "HolidayName": "Christmas Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1451088000000,
+    "HolidayName": "Boxing Day",
+    "HolidayType": "National holiday",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  },
+  {
+    "Date": 1451520000000,
+    "HolidayName": "New Year's Eve",
+    "HolidayType": "Observance",
+    "HolidayStates": "BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH"
+  }
+]

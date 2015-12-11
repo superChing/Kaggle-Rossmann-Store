@@ -1,48 +1,45 @@
 # coding: utf-8
 import itertools
+from collections import defaultdict
 
 import numpy as np
 import pandas as pd
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.preprocessing import LabelEncoder
-
+import logging
 
 class TimeSeriesCVSplit:
-    """
-    data split for cross validation in **forecasting** task.
+    """data split for cross validation in **forecasting** task.
 
     What it differs from KFolds is that :
         1. validation folds may overlapping,
         2. train folds never exceed over validation in terms of time.
             i.e. the index lates than validation's are dropped.
 
-    Parameter
-    ===
-    timeindex (int):  train's timeindex, shoud be integer.
-    vali_len (int): len(time span of validation data), usually a test_time_span
-    step (int): distance between every validaiton fold.
-        step * n_folds= days covered by validation.
+    Args:
+        timeindex (list[int]):  train's timeindex, shoud be integers.
+        vali_len (int): len(time span of validation data), usually a test_time_span
+        step (int): distance between every validaiton fold.
+            step * n_folds= days covered by validation.
+    Returns:
+        position based index
+    Example:
+        In:
+            dt=pd.Series(pd.date_range('2015/1/1','2015/1/5',unit='d'))
+            dt=(dt-dt.min()).dt.days
+            dt=dt.append(dt)  # dt x 2  = [1,2,3,4,5,1,2,3,4,5]
+            [(x,y) for x,y in TimeSeriesCVSplit(dt,2,2,2)]
 
-    Example
-    ===
-    In:
-        dt=pd.Series(pd.date_range('2015/1/1','2015/1/5',unit='d'))
-        dt=(dt-dt.min()).dt.days
-        dt=dt.append(dt)  # dt x 2  = [1,2,3,4,5,1,2,3,4,5]
-        [(x,y) for x,y in TimeSeriesCVSplit(dt,2,2,2)]
-
-    Out:
-        [(array([0, 1, 2, 5, 6, 7]), array([3, 4, 8, 9])),
-         (array([0, 5]), array([1, 2, 6, 7]))]
+        Out:
+            [(array([0, 1, 2, 5, 6, 7]), array([3, 4, 8, 9])),
+             (array([0, 5]), array([1, 2, 6, 7]))]
 
     """
 
     def __init__(self, timeindex, n_folds, vali_len, step):
         self.n_folds = n_folds
         self.timeindex = pd.Series(timeindex)
-
         self.time_end = self.timeindex.max()
-
         self.vali = vali_len
         self.step = step
 
@@ -252,7 +249,7 @@ def state_dynamic_features(df, lags=[]):
     from itertools import chain
     for col in df.columns:
         gen = itertools.groupby(df[col])
-        groups = list(list(v) for k, v in gen)  # this is 'local' groupby ,e.x. [[1,1,1],[0,0]]
+        groups = list(list(v) for k, v in gen)  # this is 'local' groupby ,e.x. [[1,1],[0,0],[1]]
         # 2 state dynamic is redundant , skip
         if df[col].nunique(dropna=True) == 2:
             continue
@@ -282,28 +279,155 @@ def continuous_dynamic_features(df, lags=[]):
     return new_features
 
 
-# def dynamic_prediction_monkey_patching(self,Xdf):
-#     """ recursive prediction
-#     **ASSUMPTION**:
-#         1. X is sorted by time
-#         2. Xdf is dataframe with "Sales_lag{x}" where x is lag number.
-#
-#     """
-#     # check X
-#     _Xdf=Xdf.copy()
-#     _Xdf=_Xdf.sort_values(by=['Year','Month','Day'])
-#
-#     pattern='Sales_lag'
-#     y_cols=filter(lambda x: pattern in x ,Xdf.columns)
-#     map(lambda x: int(x[len(pattern):]), y_cols)
-#
-#     for store in Xdf['Store']
-#     import collections
-#     pred_history=collections.defaultdict(list)  # store:prediction-history mapping
-#     for t,x in Xdf.iterrows():
-#         store=x['Store']
-#         for _t in range(1,t):
-#             Xdf[]=pred_history[store].
-#         if x.isnull().any(): TypeError('NaN in data')
-#         y=self.predict(x)
-#         pred_history[store].append(y)
+def dynamic_prediction(self, Xdf, time, subject, y_column_name, force=True):
+    """ recursive prediction
+    Args:
+        time (str or array-like): the dates of Xdf.  str for column name.
+        subject (str or array-liek)
+        Xdf ():
+        force (boolean):
+            True:   even the value in lag y have been filled, we still overwrite what we have predicted.
+            False:  only fill y lag that are NaN.
+                    so that you can fill desired value in advance, and the dynamic prediction would exploit it.
+    **ASSUMPTION**:
+        1. Xdf is dataframe with "{y_column_name}_lag{x}" where x is lag number.
+    Exampels:
+        class PredictMock:
+            def predict(self,X):
+                if X.isnull().any().any(): raise ValueError(X)
+                return np.ones(len(X))
+        df = pd.DataFrame({'ya': [1, 2, 3, 4, 5, 6],
+                           'y_lag1': [1, 2, np.nan, np.nan, np.nan, np.nan],
+                           'y_lag2': [1, 2, 3, 4, np.nan, np.nan]})
+        time = [1, 1, 2, 2, 3, 3]
+        subject = [1, 2, 1, 2, 1, 2]
+        y = sklearn_ext.dynamic_prediction(PredictMock(), df, time, subject, 'y')
+    TODO:
+        Is it better if implemting it totally based on dataframe indexing ? with out pediction history list.
+    """
+
+    feature_cols = Xdf.columns
+    df = Xdf.copy()
+    if isinstance(time, str):
+        try:
+            df['_time'] = df[time]
+        except:
+            df['_time'] = df.index.get_level_values(time)
+    else:
+        df['_time'] = time
+    # TODO check time is continuous
+    if isinstance(subject, str):
+        try:
+            df['_subject'] = df[subject]
+        except:
+            df['_subject'] = df.index.get_level_values(subject)
+    else:
+        df['_subject'] = subject
+
+    df['_yhat'] = pd.Series(index=df.index)
+    # extract how many y_lag and how much
+    col_lag = {}  # column -> n_lag mapping
+    import re
+    for col in df.columns:
+        m = re.match(r'{}_lag(.+)'.format(y_column_name), col)
+        if m and int(m.group(1)) > 0:
+            col_lag[col] = -1 * int(m.group(1))
+
+    import collections
+    #  store -> prediction-history mapping, for retriving old y,
+    #  another way is to use old y from dataframe, bu the indexing is abit complex.
+    pred_history = collections.defaultdict(list)
+    time_start = df._time.min()
+    for t in sorted(df['_time'].unique()):
+        # copy, because pandas dosen't have view and write on view.
+        _X = df.loc[df['_time'] == t].copy()
+        # fill nan from lag y
+        for idx, x in _X.iterrows():
+            _subject = x['_subject']
+            for col in col_lag:
+                if force:  # even the value in lag y have been filled, we still overwrite what we have predicted.
+                    if (pd.Timestamp(t) - time_start).days >= abs(col_lag[col]):  # TODO type of time ?
+                        _X.loc[idx, col] = pred_history[_subject][col_lag[col]]  # write on _X, a copy of df
+                else:   # only fill y lag that are NaN.
+                    if np.isnan(x[col]):
+                        _X.loc[idx, col] = pred_history[_subject][col_lag[col]]
+        yhat = self.predict(_X[feature_cols])
+        _X['_yhat'] = yhat
+        # fill prediction history
+        for idx, x in _X.iterrows():
+            pred_history[x['_subject']].append(x['_yhat'])
+        # because _X is a copy of subset, wite the filled and yhat back.
+        df.loc[_X.index, _X.columns] = _X
+    assert len(Xdf) == sum(len(l) for l in pred_history.values())  # pred_history is in right length
+    return df.reindex(Xdf.index)['_yhat']  # reindex to original input's
+
+
+def _with_report(iterable, interval=1):
+    import time
+    count = 0
+    for ele in iterable:
+        start = time.time()
+        X, Y, Xv, Yv = ele
+        print('train : {} ~ {},\nvalidation : {} ~ {} '.format(
+            X.index.min(), X.index.max(), Xv.index.min(), Xv.index.max()))
+        yield ele
+        count += 1
+        if count >= interval:
+            print('elapse {}s, work next.'.format(time.time() - start))
+            count = 0
+
+
+def gen_param(param_grid):
+    """ex: param_grid={'a':[1,2],'b':[1,2]} """
+    keys, values = zip(*param_grid.items())
+    for v in itertools.product(*values):
+        yield dict(zip(keys, v))  # a parameter
+
+
+def grid_search_CV(estimator_class, param_grid, Xdf, Ydf, cv_spliter, losser, fit_params={}, verbose=False):
+    """some grid search CV for early stopping"""
+    folds = [(Xdf.iloc[train_idx], Ydf.iloc[train_idx], Xdf.iloc[vali_idx], Ydf.iloc[vali_idx]) for
+             train_idx, vali_idx in cv_spliter]
+    if verbose: folds = _with_report(folds)
+    result = defaultdict(list)
+    for param in gen_param(param_grid):
+        for X, Y, Xv, Yv in folds:
+            model = estimator_class(**param)
+            model.fit(X, Y, **fit_params(X, Y, Xv, Yv))
+            Yhat = model.predict(Xv)
+            loss = losser(Yv, Yhat)
+            result[tuple(param.items())].append(loss)
+
+    return result
+
+# ====== early-stop for RF =========
+# def warm_start_early_stop(model,n_tree_to_add):
+#     incre_errors=[]
+#     for n in range(10, model.get_params()['n_estimators'] + 1,n_tree_to_add):
+#         model.set_params(n_estimators=n,warm_start=True)
+#         model.fit(X,y)
+#         yhat = model.predict(Xv)
+#         loss=utils.loss(np.expm1(yv),np.expm1( yhat))
+#         incre_errors.append((n,loss))
+
+#         #raise NotImplementError( 'how to early stop?' )
+
+#     plt.plot(*zip(*incre_errors))
+#     return incre_errors
+
+# ======GridSearchCV=====
+# def lnloss(lnp_y, lnp_yhat): # lnp_y=ln(y+1)
+#     return utils.loss( np.expm1(lnp_y),  np.expm1(lnp_yhat) )
+# losser = sklearn.metrics.make_scorer(lnloss,greater_is_better=False)
+# folds=sklearn_ext.TimeSeriesCVSplit(Xdf.index.get_level_values('Date'),n_folds,vali_len,step)
+# m = ExtraTreesRegressor()
+# models = GridSearchCV(m,param_grid, cv=folds, n_jobs=1, scoring=losser,verbose=1) #refit=..., iid=... , pre_dispatch=...,
+# models.fit(Xdf, ydf)
+# print(models.best_score_)
+# print(models.best_params_)
+
+# XGB沒辦法early stopping with sklearn SearchCV因為validation set沒辦法傳給他xgb.fit(eval_set=[Xv,yv]), 雖然說應該改一下就好了
+# gbm = xgb.XGBRegressor(**fix_params)
+# models = GridSearchCV(gbm,param_grid, scoring=losser, cv=folds,
+#                   fit_params={'early_stopping_rounds':5,'eval_set'=[(Xv,yv)],'eval_metric':utils.loss,},)
+# #
