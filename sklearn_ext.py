@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.preprocessing import LabelEncoder
-import logging
+
 
 class TimeSeriesCVSplit:
     """data split for cross validation in **forecasting** task.
@@ -81,7 +81,8 @@ class ObjIndexer(TransformerMixin, BaseEstimator):
         # random ordinal encoding for categorical columns
         random_indexers = {}
         for col in _columns:
-            random_indexers[col] = LabelEncoder().fit(Xdf[col])
+            random_indexers[col] = LabelEncoder().fit(
+                Xdf[col].astype(str))  # astype to avoid nan in str column TypeError: unorderable types: str() > float()
         self.random_indexers_ = random_indexers
         # #ohe
         # ohe_transformers = {}
@@ -106,7 +107,7 @@ class ObjIndexer(TransformerMixin, BaseEstimator):
     def transform(self, Xdf, y=None):
         Xdf = Xdf.copy()
         for col, trans in self.random_indexers_.items():
-            Xdf[col] = trans.transform(Xdf[col])
+            Xdf[col] = trans.transform(Xdf[col].astype(str))
 
         # xs=[]
         # for col,transforms in self.transform_.items():
@@ -279,89 +280,6 @@ def continuous_dynamic_features(df, lags=[]):
     return new_features
 
 
-def dynamic_prediction(self, Xdf, time, subject, y_column_name, force=True):
-    """ recursive prediction
-    Args:
-        time (str or array-like): the dates of Xdf.  str for column name.
-        subject (str or array-liek)
-        Xdf ():
-        force (boolean):
-            True:   even the value in lag y have been filled, we still overwrite what we have predicted.
-            False:  only fill y lag that are NaN.
-                    so that you can fill desired value in advance, and the dynamic prediction would exploit it.
-    **ASSUMPTION**:
-        1. Xdf is dataframe with "{y_column_name}_lag{x}" where x is lag number.
-    Exampels:
-        class PredictMock:
-            def predict(self,X):
-                if X.isnull().any().any(): raise ValueError(X)
-                return np.ones(len(X))
-        df = pd.DataFrame({'ya': [1, 2, 3, 4, 5, 6],
-                           'y_lag1': [1, 2, np.nan, np.nan, np.nan, np.nan],
-                           'y_lag2': [1, 2, 3, 4, np.nan, np.nan]})
-        time = [1, 1, 2, 2, 3, 3]
-        subject = [1, 2, 1, 2, 1, 2]
-        y = sklearn_ext.dynamic_prediction(PredictMock(), df, time, subject, 'y')
-    TODO:
-        Is it better if implemting it totally based on dataframe indexing ? with out pediction history list.
-    """
-
-    feature_cols = Xdf.columns
-    df = Xdf.copy()
-    if isinstance(time, str):
-        try:
-            df['_time'] = df[time]
-        except:
-            df['_time'] = df.index.get_level_values(time)
-    else:
-        df['_time'] = time
-    # TODO check time is continuous
-    if isinstance(subject, str):
-        try:
-            df['_subject'] = df[subject]
-        except:
-            df['_subject'] = df.index.get_level_values(subject)
-    else:
-        df['_subject'] = subject
-
-    df['_yhat'] = pd.Series(index=df.index)
-    # extract how many y_lag and how much
-    col_lag = {}  # column -> n_lag mapping
-    import re
-    for col in df.columns:
-        m = re.match(r'{}_lag(.+)'.format(y_column_name), col)
-        if m and int(m.group(1)) > 0:
-            col_lag[col] = -1 * int(m.group(1))
-
-    import collections
-    #  store -> prediction-history mapping, for retriving old y,
-    #  another way is to use old y from dataframe, bu the indexing is abit complex.
-    pred_history = collections.defaultdict(list)
-    time_start = df._time.min()
-    for t in sorted(df['_time'].unique()):
-        # copy, because pandas dosen't have view and write on view.
-        _X = df.loc[df['_time'] == t].copy()
-        # fill nan from lag y
-        for idx, x in _X.iterrows():
-            _subject = x['_subject']
-            for col in col_lag:
-                if force:  # even the value in lag y have been filled, we still overwrite what we have predicted.
-                    if (pd.Timestamp(t) - time_start).days >= abs(col_lag[col]):  # TODO type of time ?
-                        _X.loc[idx, col] = pred_history[_subject][col_lag[col]]  # write on _X, a copy of df
-                else:   # only fill y lag that are NaN.
-                    if np.isnan(x[col]):
-                        _X.loc[idx, col] = pred_history[_subject][col_lag[col]]
-        yhat = self.predict(_X[feature_cols])
-        _X['_yhat'] = yhat
-        # fill prediction history
-        for idx, x in _X.iterrows():
-            pred_history[x['_subject']].append(x['_yhat'])
-        # because _X is a copy of subset, wite the filled and yhat back.
-        df.loc[_X.index, _X.columns] = _X
-    assert len(Xdf) == sum(len(l) for l in pred_history.values())  # pred_history is in right length
-    return df.reindex(Xdf.index)['_yhat']  # reindex to original input's
-
-
 def _with_report(iterable, interval=1):
     import time
     count = 0
@@ -390,6 +308,7 @@ def grid_search_CV(estimator_class, param_grid, Xdf, Ydf, cv_spliter, losser, fi
              train_idx, vali_idx in cv_spliter]
     if verbose: folds = _with_report(folds)
     result = defaultdict(list)
+    models = []
     for param in gen_param(param_grid):
         for X, Y, Xv, Yv in folds:
             model = estimator_class(**param)
@@ -397,8 +316,33 @@ def grid_search_CV(estimator_class, param_grid, Xdf, Ydf, cv_spliter, losser, fi
             Yhat = model.predict(Xv)
             loss = losser(Yv, Yhat)
             result[tuple(param.items())].append(loss)
+            models.append(model)
 
-    return result
+    return result, models
+
+
+def recursive_selection_CV(estimator, step, n_features_to_select, X, Y, cv_spliter, scorer):
+    from sklearn.cross_validation import _score
+    import time
+    def _scorer(_estimator, features):
+        print('time now {}'.format(time.time()))
+        return _score(_estimator, Xv.iloc[:, features], Yv, scorer)
+
+    # Determine the number of subsets of features
+    import _RFE  # I make it supporting multioutput
+    rankings_each_folds, scores, rfes = [], [], []
+    folds = [(X.iloc[train_idx], Y.iloc[train_idx], X.iloc[vali_idx], Y.iloc[vali_idx]) for
+             train_idx, vali_idx in cv_spliter]
+    for X, Y, Xv, Yv in folds:
+        rfe = _RFE.RFE(estimator=estimator,
+                       n_features_to_select=n_features_to_select, step=step, verbose=1)
+        rfe._fit(X, Y, _scorer)  # get a score each step
+        scores.append(np.array(rfe.scores_).reshape(1, -1))
+        rankings_each_folds.append(rfe.ranking_)
+        rfes.append(rfe)
+    scores = np.sum(np.concatenate(scores, 0), 0) / len(folds)
+    return scores, rankings_each_folds, rfes
+
 
 # ====== early-stop for RF =========
 # def warm_start_early_stop(model,n_tree_to_add):
@@ -431,3 +375,172 @@ def grid_search_CV(estimator_class, param_grid, Xdf, Ydf, cv_spliter, losser, fi
 # models = GridSearchCV(gbm,param_grid, scoring=losser, cv=folds,
 #                   fit_params={'early_stopping_rounds':5,'eval_set'=[(Xv,yv)],'eval_metric':utils.loss,},)
 # #
+
+
+
+# ===================================================
+def dynamic_predict(model, Xdf, time, subject, Y_column_names=['Sales', 'Customers'], force=True):
+    """ recursive prediction
+    Args:
+        time (str or array-like): the dates of Xdf.  str for column name.
+        subject (str or array-liek)
+        Xdf ():
+        force (boolean):
+            True:   even the value in lag y have been filled, we still overwrite what we have predicted.
+            False:  only fill y lag that are NaN.
+                    so that you can fill desired value in advance, and the dynamic prediction would exploit it.
+    **ASSUMPTION**:
+        1. Xdf is dataframe with "{y_column_name}_lag{x}" where x is lag number.
+        2. assume the all subject get the same length of time
+    Exampels:
+        class PredictMock:
+            def predict(self,X):
+                if X.isnull().any().any(): raise ValueError(X)
+                return np.ones((len(X),2))
+        import pandas as pd
+        import numpy as np
+        df = pd.DataFrame({'ya': [1, 2, 3, 4, 5, 6],
+                           'y_lag1': [1, 1, np.nan, np.nan, np.nan, np.nan],
+                           'y_lag2': [2, 2, 2, 2, np.nan, np.nan],
+                           'z_lag2': [3, 3, 3, 3, np.nan,np.nan], })
+        time = [1, 1, 2, 2, 3, 3]
+        subject = [1, 2, 1, 2, 1, 2]
+        import sklearn_ext
+        Y = sklearn_ext.dynamic_predict(PredictMock(), df, time, subject,['y','z'],force=False)
+    """
+
+    feature_cols = Xdf.columns
+    df = Xdf.copy()
+    if isinstance(time, str):
+        try:
+            df['_time'] = Xdf[time]
+        except:
+            df['_time'] = Xdf.index.get_level_values(time)
+    else:
+        df['_time'] = time
+
+    if isinstance(subject, str):
+        try:
+            df['_subject'] = Xdf[subject]
+        except:
+            df['_subject'] = Xdf.index.get_level_values(subject)
+    else:
+        df['_subject'] = subject
+
+    try:
+        df['_time'] = (df._time - df._time.min()).dt.days
+    except:
+        if df._time.dtype != np.float and df._time.dtype != np.int: raise ValueError('time type unknown')
+        # TODO check time is continuous
+
+    # TODO  expedient, I have case that index and columns are the same.
+    try:
+        df = df.reset_index()  # put index to columns
+    except:
+        df = df.drop(df.index.names, axis=1, errors='ignore')
+        df = df.reset_index()
+    df = df.set_index(['_time', '_subject'], drop=False).sort_index()
+
+    for col in Y_column_names:
+        df[col] = pd.Series(index=df.index)
+    # search column names, to extract how lag is y_lag .
+    col_lag = {}  # lagging y's column name -> n_lag mapping
+    import re
+    for ycol in Y_column_names:
+        for col in df.columns:
+            m = re.match(r'{}_lag(.+)'.format(ycol), col)
+            if m and int(m.group(1)) > 0:
+                col_lag[col] = -1 * int(m.group(1))
+
+    # if not col_lag: raise ValueError('y lag columns={}'.format(col_lag))
+    t_start = df._time.min()
+    for t in sorted(df['_time'].unique()):
+        # df 已經照date store sort好，所以要填補的lag y會以t為單位全部store都nan, 為一個nan vector每個element都是一個store.
+        # 需要做的就是拿前面的時間的vector來填補。
+        # assume the all subject get the same length of time, other wise the las epoch will raise error cuz indexing is different length
+        for col in col_lag.keys():
+            lag_idx = (
+                t - (
+                    -col_lag[col]),)  # multi index, since _X and df are same oreder, we don't bother the store indexing
+            if force:  # even the value in lag y have been filled, we still overwrite what we have predicted.
+                if (t - t_start) >= abs(col_lag[col]):  # TODO type of time ?
+                    df.loc[t, col] = df.loc[lag_idx, col].values  # .values to avoid different time index when assigning
+            else:  # only fill y lag that are NaN.
+                if all(df.loc[t, col].isnull()):
+                    df.loc[t, col] = df.loc[lag_idx, col].values
+        # from IPython.core.debugger import Tracer;Tracer()()
+        Yhat = model.predict(df.loc[t, feature_cols])
+        df.loc[t, Y_column_names] = pd.DataFrame(Yhat).values  # turn into values to ignore index
+
+    df = df.set_index(Xdf.index.names, drop=True).reindex(Xdf.index)
+    return df[Y_column_names]  # reindex to original input's
+
+
+from sklearn.ensemble import ExtraTreesRegressor
+
+
+class DynamicExtraTreesRegressor(ExtraTreesRegressor):
+    def __init__(self, Y_column_names,
+                 n_estimators=10,
+                 criterion="mse",
+                 max_depth=None,
+                 min_samples_split=2,
+                 min_samples_leaf=1,
+                 min_weight_fraction_leaf=0.,
+                 max_features="auto",
+                 max_leaf_nodes=None,
+                 bootstrap=False,
+                 oob_score=False,
+                 n_jobs=1,
+                 random_state=None,
+                 verbose=0,
+                 warm_start=False):
+        super(DynamicExtraTreesRegressor, self).__init__(
+            n_estimators=n_estimators,
+            criterion=criterion,
+            max_depth=max_depth,
+            min_samples_split=min_samples_split,
+            min_samples_leaf=min_samples_leaf,
+            min_weight_fraction_leaf=min_weight_fraction_leaf,
+            max_features=max_features,
+            max_leaf_nodes=max_leaf_nodes,
+            bootstrap=bootstrap,
+            oob_score=oob_score,
+            n_jobs=n_jobs,
+            random_state=random_state,
+            verbose=verbose,
+            warm_start=warm_start)
+
+        self.Y_column_names = Y_column_names
+
+    # def __init__(self,*args,**kwargs):
+    #     super(DynamicExtraTreesRegressor, self).__init__(*args,**kwargs)
+    def predict(self, X):
+        Yhat = dynamic_predict(super(DynamicExtraTreesRegressor, self),
+                               X, time='Date', subject='Store', Y_column_names=self.Y_column_names, force=True)
+        return Yhat
+
+
+import xgboost as xgb
+
+
+class DynamicXGBRegressor(xgb.XGBRegressor):
+    def predict(self, X):
+        Yhat = dynamic_predict(super(DynamicXGBRegressor, self),
+                               X, time='Date', subject='Store', Y_column_names=['Sales'], force=True)
+        return Yhat
+
+
+class WeekDayExtraTreesRegressor():
+    def fit(self, X, Y):
+        parent = super(DynamicExtraTreesRegressor, self)
+        from sklearn.base import clone
+        for weekday in sorted(X.WeekDay.uninque()):
+            _model = clone(parent)
+            _model.fit(X[X.WeekDay == weekday], Y)
+            self.models_.append(_model)
+
+    def predict(self, X):
+        parent = super(DynamicExtraTreesRegressor, self)
+        for weekday, m in enumerate(self.models):
+            Yhat = m.predict(X[X.WeekDay == weekday])
